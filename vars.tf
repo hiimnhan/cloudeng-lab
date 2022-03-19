@@ -21,3 +21,7 @@ variable "global_settings" {
 variable "linux_settings" {
 
 }
+
+variable "private_key_path" {
+
+}

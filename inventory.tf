@@ -17,5 +17,5 @@ data "template_file" "inventory_cfg" {
 
 resource "local_file" "save_inven" {
   content  = data.template_file.inventory_cfg.rendered
-  filename = "./ansible/inventory.yaml"
+  filename = "./ansible/inventory"
 }

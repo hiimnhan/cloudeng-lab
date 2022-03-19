@@ -27,6 +27,10 @@ resource "azurerm_storage_account" "cloudeng_lab_sa" {
 resource "tls_private_key" "ssh" {
   algorithm = "RSA"
   rsa_bits  = 4096
+
+  provisioner "local-exec" {
+    command = "echo '${tls_private_key.ssh.private_key_pem}' > ${var.private_key_path}"
+  }
 }
 output "tls_private_key" {
   value     = tls_private_key.ssh.private_key_pem
@@ -68,5 +72,20 @@ resource "azurerm_linux_virtual_machine" "cloudeng_lab_linux_vm" {
   }
 
   tags = var.global_settings.tags
+}
+
+resource "null_resource" "install_java_linux" {
+  count = "${length(azurerm_linux_virtual_machine.cloudeng_lab_linux_vm.*.id)}"
+  connection {
+    user = "${var.linux_settings.admin_username}"
+    private_key = "${file("${var.private_key_path}")}"
+    agent = true
+    timeout = "5m"
+    host = "${element(azurerm_linux_virtual_machine.cloudeng_lab_linux_vm.*.public_ip_address, count.index)}"
+  }
+
+  provisioner "local-exec" {
+    command = "StrictHostKeyChecking=no ansible-playbook -u ${var.linux_settings.admin_username} --key-file '${var.private_key_path}' -i ./ansible/inventory ./ansible/playbook/main.yaml --extra-vars 'ip=${element(azurerm_linux_virtual_machine.cloudeng_lab_linux_vm.*.public_ip_address, count.index)}'"
+  }
 }
 
