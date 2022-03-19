@@ -1,0 +1,17 @@
+- hosts: linux
+  become: yes
+  name: linux-java-install
+
+  tasks:
+    - name: update APT package manager
+      apt:
+        upgrade: yes
+        update_cache: yes
+        cache_valid_time: 86400
+    - name: install java 
+      apt:
+        name: "{{ packages }}"
+        state: present
+      vars:
+        packages:
+          - openjdk-11-jdk
