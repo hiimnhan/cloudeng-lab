@@ -22,6 +22,10 @@ variable "linux_settings" {
 
 }
 
+variable "windows_settings" {
+
+}
+
 variable "private_key_path" {
 
 }

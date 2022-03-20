@@ -12,6 +12,7 @@ data "template_file" "inventory_cfg" {
 
   vars = {
     linux_public_ip = "${join("\n", azurerm_linux_virtual_machine.cloudeng_lab_linux_vm.*.public_ip_address)}"
+    // windows_public_ip = "${join("\n", azurerm_windows_virtual_machine.cloudeng_lab_windows_vm.*.public_ip_address)}"
   }
 }
 
