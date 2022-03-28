@@ -1,0 +1,2 @@
+- import_playbook: ./java/linux-java-install.yaml
+- import_playbook: ./jenkins/linux-jenkins-install.yaml

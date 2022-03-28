@@ -44,6 +44,17 @@ resource "azurerm_network_security_group" "cloudeng_lab_nsg" {
     destination_address_prefix = "*"
   }
 
+  security_rule {
+    name                       = "Jenkins"
+    priority                   = 1002
+    direction                  = "Inbound"
+    access                     = "Allow"
+    protocol                   = "Tcp"
+    source_port_range          = "*"
+    destination_port_range     = "8080"
+    source_address_prefix      = "*"
+    destination_address_prefix = "*"
+  }
   # security_rule {
   #   name                       = "Allow_WinRM"
   #   priority                   = 101

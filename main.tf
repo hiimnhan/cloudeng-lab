@@ -118,7 +118,7 @@ resource "null_resource" "install_java_linux" {
   }
 
   provisioner "local-exec" {
-    command = "StrictHostKeyChecking=no ansible-playbook -u ${var.linux_settings.admin_username} --key-file '${var.private_key_path}' -i ./ansible/inventory ./ansible/playbook/java/linux-java-install.yaml"
+    command = "StrictHostKeyChecking=no ansible-playbook -u ${var.linux_settings.admin_username} --key-file '${var.private_key_path}' -i ./ansible/inventory ./ansible/playbook/main.yaml"
   }
 }
 
